@@ -44,7 +44,6 @@ class WorksAPIControllerTest extends TestCase
 	{
 		$url = self::API_URL;
 		$damaged_url = static::getDamagedUrl();
-		$good_url = static::getGoodUrl();
 
 		$this->json('GET', $url)->assertStatus(400);
 		$this->get($url)->assertStatus(400);
