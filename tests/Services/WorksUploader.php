@@ -6,7 +6,7 @@ use App\Services\WorksParser;
 
 class WorksUploader
 {
-	const TEST_INPUT = <<<'JSON'
+	const TEST_INPUT = <<<JSON
 [
   {
 		"Марка": "LAND ROVER",
@@ -60,5 +60,10 @@ JSON;
 	{
 		$parser = $this->getParser();
 		$parser->uploadCars();
+	}
+	public function upload()
+	{
+		$parser = $this->getParser();
+		$parser->upload();
 	}
 }

@@ -106,13 +106,14 @@ class WorksParserTest extends TestCase
 		$works_json = json_encode($works, JSON_UNESCAPED_UNICODE);
 		$expected_output = [
 			'name' => 'ТО-1 не оригинал',
-			'price' => 8400,
+			'price' => 8400.0,
 			'works_json' => $works_json,
 			'car_model_id' => 1,
 		];
 
 		$parser = new WorksParser($this->uploader::TEST_INPUT);
 		$value = $parser->parseWorks()->first();
+		$value['works_json'] = json_encode($value['works_json'], JSON_UNESCAPED_UNICODE);
 
 		$diff_with_expected = array_diff_assoc($value, $expected_output);
 		$this->assertEmpty(
@@ -133,10 +134,15 @@ class WorksParserTest extends TestCase
 		];
 		$this->assertDatabaseHas('maintenance_models', $expected_output);
 
-		$work = MaintenanceModel::find(1);
-		$works_json_decoded = json_decode($work->works_json, true);
-		$works_json_decoded_expected = $this->uploader::WORKS_MODEL_VALUES['works_json_decoded'];
-		$works_json_decoded_diff = array_diff($works_json_decoded, $works_json_decoded_expected);
+		$maintenance = MaintenanceModel::find(1)->toArray();
+		$maintenance['works_json'] = json_encode($maintenance['works_json'], JSON_UNESCAPED_UNICODE);
+		unset($maintenance['works_json_decoded']);
+
+		$works_json_decoded_expected = $this->uploader::WORKS_MODEL_VALUES;
+		$works_json_decoded_expected['works_json'] = json_encode($this->uploader::WORKS_MODEL_VALUES['works_json_decoded'], JSON_UNESCAPED_UNICODE);
+		unset($works_json_decoded_expected['works_json_decoded']);
+
+		$works_json_decoded_diff = array_diff($maintenance, $works_json_decoded_expected);
 		$this->assertEmpty(
 			$works_json_decoded_diff,
 			'Parsed work do not match expected output'

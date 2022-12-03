@@ -81,10 +81,7 @@ class WorksParser
 			}
 			$this->works = $works->map(fn ($item) => [
 				'name' => $item['ТО'],
-				'works_json' => json_encode(
-					$item['МассивРабот'],
-					JSON_UNESCAPED_UNICODE
-				),
+				'works_json' => $item['МассивРабот'],
 				'price' => round($item['СуммаСвязанных']),
 				'car_model_id' => $car_models[static::getCarVerboseFromWork($item)]->id,
 			]);
