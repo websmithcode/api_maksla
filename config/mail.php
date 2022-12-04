@@ -114,5 +114,5 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-
+    'admins' => parse_value_as_array(env('MAIL_ADMINS', 'admin@example.com'))
 ];

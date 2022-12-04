@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SignUpForMaintenanceAPIController;
 use App\Http\Controllers\WorksAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth.KeyBasedAccess')->post('/upload', function (Request $request) {
 				return 'ok';
 });
+
 Route::get('/get-works', [WorksAPIController::class, 'getWorks']);
+Route::get('/sign-up-for-maintenance', [SignUpForMaintenanceAPIController::class, 'signUp']);
