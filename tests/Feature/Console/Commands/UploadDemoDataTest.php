@@ -20,7 +20,20 @@ class UploadDemoDataTest extends TestCase
 		$uploader = new WorksUploader();
 		$count_of_cars = $uploader->parser->parseCars()->count();
 		$count_of_works = $uploader->parser->parse()->count();
-				
+
+		$this->assertDatabaseCount('car_models', $count_of_cars);
+		$this->assertDatabaseCount('maintenance_models', $count_of_works);
+	}
+	public function testUploadingWorksLight()
+	{
+		$this->artisan('upload:demo-data works_light')
+			->expectsOutput('Demo data "works_light" uploaded')
+			->assertExitCode(0);
+
+		$uploader = new WorksUploader('works_light');
+		$count_of_cars = $uploader->parser->parseCars()->count();
+		$count_of_works = $uploader->parser->parse()->count();
+
 		$this->assertDatabaseCount('car_models', $count_of_cars);
 		$this->assertDatabaseCount('maintenance_models', $count_of_works);
 	}

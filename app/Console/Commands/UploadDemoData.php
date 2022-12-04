@@ -40,11 +40,10 @@ class UploadDemoData extends Command
 
 	static function getFixturePath(string $name)
 	{
-		switch ($name) {
-			case 'works':
-				return storage_path('docs/works.json');
-			default:
-				return null;
+    $path = storage_path("docs/demo/$name.json");
+		if (!file_exists($path)) {
+						throw new \Exception("Fixture \"$name\" not found");
 		}
+		return $path;
 	}
 }

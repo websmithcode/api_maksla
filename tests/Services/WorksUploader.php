@@ -2,6 +2,7 @@
 
 namespace Tests\Services;
 
+use App\Console\Commands\UploadDemoData;
 use App\Services\WorksParser;
 
 class WorksUploader
@@ -44,9 +45,9 @@ JSON;
 		],
 	];
 
-	public function __construct()
+	public function __construct(string $data_name='works')
 	{
-		$this->fixture_path = storage_path('docs/works.json');
+		$this->fixture_path = UploadDemoData::getFixturePath($data_name);
 		$this->works_json = file_get_contents($this->fixture_path);
 		$this->parser = new WorksParser($this->works_json);
 	}
